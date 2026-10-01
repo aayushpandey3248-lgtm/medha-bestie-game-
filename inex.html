@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ff7eb3">
+<title>Hey Medha 🎀</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  background: linear-gradient(135deg,#ffd6e8,#f1d8ff,#d9e5ff);
+  color: #444;
+  overflow-x: hidden;
+}
+
+/* Background */
+
+.background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.float {
+  position: absolute;
+  bottom: -50px;
+  animation: floatUp linear infinite;
+  opacity: .65;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0) rotate(0);
+  }
+  to {
+    transform: translateY(-115vh) rotate(360deg);
+  }
+}
+
+/* Music */
+
+.music {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 20;
+  border: none;
+  background: rgba(255,255,255,.85);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 21px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0,0,0,.12);
+}
+
+/* Game card */
+
+.container {
+  width: 92%;
+  max-width: 500px;
+  margin: 35px auto;
+  position: relative;
+  z-index: 5;
+}
+
+.card {
+  background: rgba(255,255,255,.9);
+  backdrop-filter: blur(12px);
+  border-radius: 30px;
+  padding: 28px 22px;
+  box-shadow: 0 25px 70px rgba(120,60,120,.2);
+  text-align: center;
+}
+
+.screen {
+  display: none;
+  animation: fade .5s ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo {
+  font-size: 55px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  50% { transform: translateY(-8px); }
+}
+
+h1 {
+  color: #df4f91;
+  font-size: 34px;
+  margin: 8px 0;
+}
+
+h2 {
+  color: #df4f91;
+  margin-bottom: 12px;
+}
+
+.subtitle {
+  color: #777;
+  line-height: 1.5;
+}
+
+.btn {
+  width: 100%;
+  border: none;
+  border-radius: 17px;
+  padding: 15px;
+  margin-top: 13px;
+  background: linear-gradient(135deg,#ff6fae,#bd78ff);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 9px 22px rgba(210,80,160,.25);
+  transition: .2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: scale(.97);
+}
+
+.info {
+  background: #fff1f8;
+  padding: 18px;
+  border-radius: 20px;
+  margin: 20px 0;
+  line-height: 1.6;
+}
+
+.progress {
+  height: 9px;
+  background: #eee;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+
+.progressBar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg,#ff65a5,#b56cff);
+  transition: .4s;
+}
+
+.question {
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1.4;
+  margin: 22px 0;
+}
+
+.option {
+  background: #fff3f8;
+  color: #555;
+  border: 2px solid #ffd2e5;
+  box-shadow: none;
+}
+
+.option:hover {
+  background: #ffe1ee;
+}
+
+.option.correct {
+  background: #d9ffd9;
+  border-color: #72c872;
+}
+
+.option.wrong {
+  background: #ffdede;
+  border-color: #ed7777;
+}
+
+.feedback {
+  min-height: 35px;
+  margin-top: 15px;
+  color: #d64e8e;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.score {
+  font-size: 65px;
+  font-weight: bold;
+  color: #df4f91;
+  margin: 15px;
+}
+
+.badge {
+  display: inline-block;
+  background: #ffd4e7;
+  color: #c43c7e;
+  padding: 9px 18px;
+  border-radius: 50px;
+  font-weight: bold;
+}
+
+.letter {
+  text-align: left;
+  background: #fff5fa;
+  border-radius: 22px;
+  padding: 22px;
+  margin-top: 20px;
+  line-height: 1.8;
+}
+
+.signature {
+  text-align: right;
+  margin-top: 18px;
+  font-weight: bold;
+  color: #d94e8e;
+}
+
+.secret {
+  margin-top: 18px;
+  padding: 17px;
+  border-radius: 18px;
+  background: linear-gradient(135deg,#ffe0ed,#eee0ff);
+  color: #a63d76;
+  font-weight: bold;
+}
+
+.small {
+  color: #999;
+  font-size: 12px;
+  margin-top: 18px;
+}
+
+/* Confetti */
+
+.confetti {
+  position: fixed;
+  top: -30px;
+  z-index: 100;
+  font-size: 22px;
+  pointer-events: none;
+  animation: fall 3.5s linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Heart burst */
+
+.burst {
+  position: fixed;
+  pointer-events: none;
+  z-index: 101;
+  animation: burst 1.2s ease-out forwards;
+}
+
+@keyframes burst {
+  from {
+    opacity: 1;
+    transform: translate(0,0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--x),var(--y)) scale(.4);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating background -->
+<div class="background">
+  <span class="float" style="left:5%;font-size:25px;animation-duration:8s;">💗</span>
+  <span class="float" style="left:18%;font-size:18px;animation-duration:10s;">✨</span>
+  <span class="float" style="left:35%;font-size:28px;animation-duration:7s;">🎀</span>
+  <span class="float" style="left:52%;font-size:20px;animation-duration:11s;">💕</span>
+  <span class="float" style="left:70%;font-size:25px;animation-duration:9s;">🌸</span>
+  <span class="float" style="left:88%;font-size:20px;animation-duration:12s;">💖</span>
+</div>
+
+<!-- Music -->
+<button class="music" id="musicBtn" onclick="toggleMusic()">🔇</button>
+
+<div class="container">
+<div class="card">
+
+<!-- START -->
+<section class="screen active" id="start">
+
+  <div class="logo">🎀</div>
+
+  <h1>Hey Medha!</h1>
+
+  <p class="subtitle">
+    Welcome to your very unofficial<br>
+    <b>Bestie Test™</b> 😂💗
+  </p>
+
+  <div class="info">
+    <b>Dear Medha 👀</b><br><br>
+    A small game has been created specifically
+    to test how well your bestie knows you.
+    <br><br>
+    No pressure... 👀
+  </div>
+
+  <button class="btn" onclick="startGame()">
+    START THE GAME 💕
+  </button>
+
+  <p class="small">
+    Warning: Bakchodi levels may be high 😂
+  </p>
+
+</section>
+
+
+<!-- NAME -->
+<section class="screen" id="name">
+
+  <div class="logo">👀</div>
+
+  <h2>Before we begin...</h2>
+
+  <p class="subtitle">
+    Bestie ka naam toh pata hai 😂<br>
+    But player ka naam?
+  </p>
+
+  <input
+    id="playerName"
+    type="text"
+    placeholder="Enter your name"
+    style="
+      width:100%;
+      padding:15px;
+      margin-top:18px;
+      border:2px solid #ffd0e3;
+      border-radius:15px;
+      outline:none;
+      font-size:16px;
+    "
+  >
+
+  <button class="btn" onclick="beginQuiz()">
+    LET'S GO 🎮
+  </button>
+
+</section>
+
+
+<!-- QUIZ -->
+<section class="screen" id="quiz">
+
+  <h2>Medha Quiz 🎀</h2>
+
+  <div class="progress">
+    <div class="progressBar" id="progressBar"></div>
+  </div>
+
+  <p id="number"></p>
+
+  <div class="question" id="question"></div>
+
+  <div id="options"></div>
+
+  <div class="feedback" id="feedback"></div>
+
+</section>
+
+
+<!-- RESULT -->
+<section class="screen" id="result">
+
+  <div class="logo">🎉</div>
+
+  <h1>Quiz Complete!</h1>
+
+  <p id="resultName"></p>
+
+  <div class="score">
+    <span id="score">0</span>/10
+  </div>
+
+  <div class="badge" id="badge"></div>
+
+  <div class="info" id="resultText"></div>
+
+  <button class="btn" onclick="showSurprise()">
+    OPEN YOUR SURPRISE 💌
+  </button>
+
+  <button class="btn" onclick="restart()">
+    PLAY AGAIN 🔄
+  </button>
+
+</section>
+
+
+<!-- SURPRISE -->
+<section class="screen" id="surprise">
+
+  <div class="logo">💌</div>
+
+  <h1>For Medha 🎀</h1>
+
+  <div class="letter">
+
+    <b>Dear Medha,</b>
+
+    <br><br>
+
+    Okay... game toh khatam ho gaya 😂
+
+    <br><br>
+
+    But honestly, friendship ka score kisi quiz
+    se decide nahi hota. 💗
+
+    <br><br>
+
+    Life me kitne bhi random moments aaye,
+    kitni bhi bakchodi ho, kitne bhi arguments ho,
+    aur kitne bhi "okay" messages aaye 😂...
+
+    <br><br>
+
+    Some people just become a special part
+    of your memories without even trying.
+
+    <br><br>
+
+    So yeah...
+
+    <br><br>
+
+    <b>Thanks for being you, Medha. 🎀</b>
+
+    <div class="signature">
+      — Your Bestie 💗
+    </div>
+
+  </div>
+
+  <div class="secret">
+    🔐 SECRET LEVEL UNLOCKED<br><br>
+    Friendship status: <b>PERMANENTLY SAVED 💾💗</b>
+  </div>
+
+  <button class="btn" onclick="celebrate()">
+    ONE LAST SURPRISE ✨
+  </button>
+
+</section>
+
+</div>
+</div>
+
+
+<script>
+
+/* ---------------- QUESTIONS ---------------- */
+
+const questions = [
+
+{
+ q:"Medha ka '5 minutes' actually kitna hota hai? 😂",
+ options:["Exactly 5 minutes","10 minutes","30+ minutes","Next year"],
+ answer:2,
+ correct:"😂 Obviously! Medha Time™ works differently."
+},
+
+{
+ q:"Medha online hai... iska matlab?",
+ options:["Reply immediately","Busy hai","Reply later™","Phone chala rahi hai but reply nahi karegi 😂"],
+ answer:3,
+ correct:"😂 Online ≠ Available."
+},
+
+{
+ q:"Medha ke 'okay' ka hidden meaning?",
+ options:["Everything is fine","I agree","You should probably explain yourself 👀","Good morning"],
+ answer:2,
+ correct:"BRO 😂 'Okay' kabhi simple nahi hota."
+},
+
+{
+ q:"Medha ko simple question pucho toh kya mil sakta hai?",
+ options:["One word answer","Seen","Full explanation + bonus story","Nothing"],
+ answer:2,
+ correct:"😂 Correct! Bonus story included."
+},
+
+{
+ q:"Medha ka secret superpower?",
+ options:["Flying","Overthinking","Teleportation","Reading minds"],
+ answer:1,
+ correct:"🏆 Overthinking level: LEGENDARY."
+},
+
+{
+ q:"Agar Medha bole 'mujhe kuch nahi hua' toh?",
+ options:["Believe immediately","Ignore","Check again 👀","Go to sleep"],
+ answer:2,
+ correct:"😂 Investigation department activated."
+},
+
+{
+ q:"Best friendship ka main ingredient?",
+ options:["Money","Trust + memories","Perfect photos","Winning arguments"],
+ answer:1,
+ correct:"💗 Exactly. Memories > everything."
+},
+
+{
+ q:"Boring day ko instantly better kya kar sakta hai?",
+ options:["Homework","Bestie call","More homework","Alarm"],
+ answer:1,
+ correct:"😂 Bestie call = instant chaos."
+},
+
+{
+ q:"Medha + bestie friendship ka secret formula?",
+ options:["Trust + bakchodi","Silence","Homework","Competition"],
+ answer:0,
+ correct:"🎀 Trust + unlimited bakchodi."
+},
+
+{
+ q:"Final question... Medha ki bestie kitni lucky hai? 👀",
+ options:["Lucky","Very lucky","Extremely lucky","100/10 LEGENDARY LUCKY 😎"],
+ answer:3,
+ correct:"😎 Obviously! There was only one correct answer."
+}
+
+];
+
+let current = 0;
+let score = 0;
+let player = "";
+
+function show(id) {
+
+  document.querySelectorAll(".screen").forEach(s =>
+    s.classList.remove("active")
+  );
+
+  document.getElementById(id).classList.add("active");
+}
+
+function startGame() {
+  show("name");
+}
+
+function beginQuiz() {
+
+  player =
+    document.getElementById("playerName").value.trim();
+
+  if (!player) player = "Bestie";
+
+  current = 0;
+  score = 0;
+
+  show("quiz");
+  loadQuestion();
+}
+
+function loadQuestion() {
+
+  const q = questions[current];
+
+  document.getElementById("number").textContent =
+    `Question ${current + 1} / ${questions.length}`;
+
+  document.getElementById("question").textContent = q.q;
+
+  document.getElementById("feedback").textContent = "";
+
+  document.getElementById("progressBar").style.width =
+    ((current / questions.length) * 100) + "%";
+
+  const box = document.getElementById("options");
+
+  box.innerHTML = "";
+
+  q.options.forEach((option,index) => {
+
+    const button = document.createElement("button");
+
+    button.className = "btn option";
+    button.textContent = option;
+
+    button.onclick = () =>
+      answer(index,button);
+
+    box.appendChild(button);
+  });
+}
+
+function answer(selected,clickedButton) {
+
+  const q = questions[current];
+
+  const buttons =
+    document.querySelectorAll(".option");
+
+  buttons.forEach(b => b.disabled = true);
+
+  if (selected === q.answer) {
+
+    score++;
+
+    clickedButton.classList.add("correct");
+
+    document.getElementById("feedback").textContent =
+      "✅ " + q.correct;
+
+    heartBurst();
+
+  } else {
+
+    clickedButton.classList.add("wrong");
+
+    buttons[q.answer].classList.add("correct");
+
+    document.getElementById("feedback").textContent =
+      "😂 Nope! Medha says: try harder.";
+
+  }
+
+  setTimeout(() => {
+
+    current++;
+
+    if (current < questions.length) {
+      loadQuestion();
+    } else {
+      result();
+    }
+
+  },1200);
+}
+
+function result() {
+
+  show("result");
+
+  document.getElementById("score").textContent = score;
+
+  document.getElementById("resultName").textContent =
+    `${player}, your final score is...`;
+
+  let badge;
+  let text;
+
+  if(score === 10) {
+
+    badge = "🏆 BESTIE MASTER";
+
+    text =
+      "WHAT?! 10/10 😭💗<br><br>" +
+      "Medha ka user manual tumse better koi nahi jaanta 😂";
+
+    confetti();
+
+  } else if(score >= 7) {
+
+    badge = "💖 BESTIE PRO";
+
+    text =
+      "Not bad 👀💗<br><br>" +
+      "Certified bestie detected. Medha research successful 😂";
+
+    confetti();
+
+  } else if(score >= 4) {
+
+    badge = "😂 BESTIE IN TRAINING";
+
+    text =
+      "Friendship hai... but thoda aur research required 😂🎀";
+
+  } else {
+
+    badge = "🚨 BESTIE UNDER REVIEW";
+
+    text =
+      "BROOO 😭😂<br><br>" +
+      "Medha is currently reconsidering your bestie status 💀";
+
+  }
+
+  document.getElementById("badge").textContent = badge;
+  document.getElementById("resultText").innerHTML = text;
+}
+
+function showSurprise() {
+
+  show("surprise");
+
+  setTimeout(() => confetti(),300);
+  setTimeout(() => heartBurst(),500);
+}
+
+function restart() {
+
+  current = 0;
+  score = 0;
+
+  show("start");
+}
+
+
+/* ---------------- CONFETTI ---------------- */
+
+function confetti() {
+
+  const emojis =
+    ["💗","🎀","💕","✨","💖","🌸","🥳","⭐"];
+
+  for(let i=0;i<45;i++) {
+
+    const item =
+      document.createElement("div");
+
+    item.className = "confetti";
+
+    item.textContent =
+      emojis[Math.floor(Math.random()*emojis.length)];
+
+    item.style.left =
+      Math.random()*100 + "vw";
+
+    item.style.animationDelay =
+      Math.random()*1.5 + "s";
+
+    document.body.appendChild(item);
+
+    setTimeout(() =>
+      item.remove(),4000);
+  }
+}
+
+
+/* ---------------- HEART BURST ---------------- */
+
+function heartBurst() {
+
+  const emojis = ["💗","💕","💖","🎀","✨"];
+
+  for(let i=0;i<12;i++) {
+
+    const h =
+      document.createElement("div");
+
+    h.className = "burst";
+
+    h.textContent =
+      emojis[Math.floor(Math.random()*emojis.length)];
+
+    h.style.left = "50%";
+    h.style.top = "45%";
+
+    h.style.setProperty(
+      "--x",
+      (Math.random()*300-150)+"px"
+    );
+
+    h.style.setProperty(
+      "--y",
+      (Math.random()*300-150)+"px"
+    );
+
+    document.body.appendChild(h);
+
+    setTimeout(() => h.remove(),1300);
+  }
+}
+
+
+/* ---------------- MUSIC ---------------- */
+
+/*
+  This uses the browser's Web Audio API,
+  so you don't need to upload an MP3.
+*/
+
+let audioContext;
+let oscillator;
+let gain;
+let playing = false;
+
+function toggleMusic() {
+
+  if(!audioContext) {
+
+    audioContext =
+      new (window.AudioContext ||
+      window.webkitAudioContext)();
+  }
+
+  if(playing) {
+
+    stopMusic();
+
+  } else {
+
+    startMusic();
+
+  }
+}
+
+function startMusic() {
+
+  if(audioContext.state === "suspended")
+    audioContext.resume();
+
+  oscillator =
+    audioContext.createOscillator();
+
+  gain =
+    audioContext.createGain();
+
+  oscillator.type = "sine";
+
+  oscillator.frequency.value = 523.25;
+
+  gain.gain.value = 0.025;
+
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
+
+  oscillator.start();
+
+  playing = true;
+
+  document.getElementById("musicBtn")
+    .textContent = "🔊";
+}
+
+function stopMusic() {
+
+  if(oscillator) {
+
+    oscillator.stop();
+
+    oscillator.disconnect();
+  }
+
+  playing = false;
+
+  document.getElementById("musicBtn")
+    .textContent = "🔇";
+}
+
+
+/* ---------------- INITIAL EFFECT ---------------- */
+
+setTimeout(() => {
+
+  if(document.getElementById("start").classList.contains("active")) {
+    heartBurst();
+  }
+
+},800);
+
+</script>
+
+</body>
+  </html>
